@@ -18,7 +18,7 @@ def hop(ref, phase_time):
 	# Ref output
 	ref.ref[ha.RHR] = ref.ref[ha.LHR] = theta
 	ref.ref[ha.RAR] = -theta
-	ref.ref[ha.LAR] = 0
+	#ref.ref[ha.LAR] = 0
 	ref.ref[ha.RHP] = -a
 	ref.ref[ha.RKN] = psi
 	ref.ref[ha.RAP] = -b
@@ -32,9 +32,9 @@ def hop_stand(ref, phase_time):
 	# Based on reset code
 	multiplier = 1
 	if (phase_time < 0.5): multiplier = 0.95
-	else if (phase_time < 1.0): multiplier = 0.9
-	else if (phase_time < 1.5): multiplier = 0.8
-	else if (phase_time < 1.9): multiplier = 0.5
+	elif (phase_time < 1.0): multiplier = 0.9
+	elif (phase_time < 1.5): multiplier = 0.8
+	elif (phase_time < 1.9): multiplier = 0.5
 	else: multiplier = 0
 	
 	for joint in (ha.RHR, ha.LHR, ha.RHP, ha.LHP, ha.RKN, ha.LKN, ha.RAR, ha.LAR, ha.RAP, ha.LAP):

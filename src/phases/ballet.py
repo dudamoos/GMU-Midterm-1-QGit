@@ -9,7 +9,7 @@ def plane(ref, phase_time):
 	pass
 
 # Robot straightens so be perpendicular to ground over XXX seconds
-unplane_time
+unplane_time = -1
 def unplane(ref, phase_time):
 	#TODO
 	pass

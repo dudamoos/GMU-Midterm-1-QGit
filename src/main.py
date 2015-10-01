@@ -23,16 +23,21 @@ PHASE_LIST = [
 	(ps.lift_left, ps.leg_time, "lifting left leg ..."),
 	
 	(ph.hop, ph.hop_time, "hopping ..."),
-	(ps.leg_reset_all, ps.leg_reset_time, "standing ..."),
+	(ps.leg_reset_right, ps.leg_reset_time, "standing ..."),
+	(ps.extend_left, ps.leg_time, "extending left leg ..."),
+	(ps.unlean_right, ps.lean_time, "centering ..."),
 	
 	(ps.lean_left, ps.lean_time, "leaning left ..."),
 	(ps.lift_right, ps.leg_time, "lifting right leg ..."),
-	(pb.plane, pb.plane_time, "leaning forward ..."),
+	#(pb.plane, pb.plane_time, "leaning forward ..."),
+	(ps.extend_right, ps.leg_time, "extending right leg ..."),
 	
-	(pb.dance, pb.dance_time, "dancing ..."),
-	(ps.lift_right, ps.leg_time, "detracting right leg ..."),
-	(pb.unplane, pb.unplane_time, "straightening ..."),
-	(ps.leg_reset, ps.leg_reset_time, "standing ..."),
+	#(pb.dance, pb.dance_time, "dancing ..."),
+	(ps.leg_reset_left, ps.leg_reset_time, "standing ..."),
+	(ps.lift_right, ps.leg_time, "retracting right leg ..."),
+	#(pb.unplane, pb.unplane_time, "straightening ..."),
+	(ps.extend_right, ps.leg_time, "extending right leg ..."),
+	(ps.unlean_right, ps.lean_time, "centering ..."),
 	
 	(ps.arm_lower, ps.arm_lift_time, "lowering arms ...")
 ]
