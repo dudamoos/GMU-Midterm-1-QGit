@@ -7,6 +7,7 @@ import math
 
 from phases.common import *
 import phases.simple as ps
+import phases.legs as pl
 import phases.hop as ph
 import phases.ballet as pb
 
@@ -14,30 +15,34 @@ def debug_joint(name, index, ref, state):
 	if (abs(ref.ref[index] - state.joint[index].pos) > 0.15):
 		print "{0} is slipping! -> ref {1:3.4f}\tstate {2:3.4f}".format(name, ref.ref[index], state.joint[index].pos)
 
+def sim_time_sleep(target, state, chan_state):
+	while (state.time < target):
+		[status, framesize] = chan_state.get(state, wait=False, last=True)
+
 REF_INTERVAL = 0.05 # control loop runs at 20 Hz
 
 PHASE_LIST = [
 	(ps.arm_lift, ps.arm_lift_time, "lifting arms ..."),
 	
-	(ps.lean_right, ps.lean_time, "leaning right ..."),
-	(ps.lift_left, ps.leg_time, "lifting left leg ..."),
+	(ps.lean_right     , ps.lean_time,     "leaning right ..."),
+	(pl.lift_left      , pl.leg_time      , "lifting left leg ..."),
+	(ph.hop            , ph.hop_time      , "hopping ..."),
+	(pl.leg_reset_right, pl.leg_reset_time, "standing ..."),
+	(pl.extend_left    , pl.leg_time      , "extending left leg ..."),
+	(ps.unlean_right   , ps.lean_time     , "centering ..."),
 	
-	(ph.hop, ph.hop_time, "hopping ..."),
-	(ps.leg_reset_right, ps.leg_reset_time, "standing ..."),
-	(ps.extend_left, ps.leg_time, "extending left leg ..."),
-	(ps.unlean_right, ps.lean_time, "centering ..."),
+	#(ps.pause, 3, "stabilizing ..."),
 	
-	(ps.lean_left, ps.lean_time, "leaning left ..."),
-	(ps.lift_right, ps.leg_time, "lifting right leg ..."),
-	#(pb.plane, pb.plane_time, "leaning forward ..."),
-	(ps.extend_right, ps.leg_time, "extending right leg ..."),
-	
-	#(pb.dance, pb.dance_time, "dancing ..."),
-	(ps.leg_reset_left, ps.leg_reset_time, "standing ..."),
-	(ps.lift_right, ps.leg_time, "retracting right leg ..."),
-	#(pb.unplane, pb.unplane_time, "straightening ..."),
-	(ps.extend_right, ps.leg_time, "extending right leg ..."),
-	(ps.unlean_right, ps.lean_time, "centering ..."),
+	(ps.lean_left     , ps.lean_time    , "leaning left ..."),
+	(pl.lift_right    , pl.leg_time     , "lifting right leg ..."),
+	#(pb.plane         , pb.plane_time   , "leaning forward ..."),
+	(pl.extend_right  , pl.leg_time     , "extending right leg ..."),
+	#(pb.dance         , pb.dance_time    , "dancing ..."),
+	(pl.leg_reset_left, pl.leg_reset_time, "standing ..."),
+	(pl.lift_right    , pl.leg_time      , "retracting right leg ..."),
+	#(pb.unplane       , pb.unplane_time  , "straightening ..."),
+	(pl.extend_right  , pl.leg_time      , "extending right leg ..."),
+	(ps.unlean_right  , ps.lean_time     , "centering ..."),
 	
 	(ps.arm_lower, ps.arm_lift_time, "lowering arms ...")
 ]
@@ -74,11 +79,12 @@ for (phase_func, phase_length, phase_text) in PHASE_LIST:
 		chan_ref.put(ref)
 		# Adaptive delay (sleep)
 		[status, framesize] = chan_state.get(state, wait=False, last=True)
-		sleep(time_cur + REF_INTERVAL - state.time)
+		sim_time_sleep(time_cur + REF_INTERVAL, state, chan_state)
 	# Ensure phase reaches its final point
 	phase_func(ref, phase_length)
 	chan_ref.put(ref)
 	
 	print
-	sleep(0.5) # aribitrary inter-phase delay
+	# arbitrary inter-phase delay
+	sim_time_sleep(time_cur + 4*REF_INTERVAL, state, chan_state)
 

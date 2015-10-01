@@ -22,21 +22,4 @@ def hop(ref, phase_time):
 	ref.ref[ha.RHP] = -a
 	ref.ref[ha.RKN] = psi
 	ref.ref[ha.RAP] = -b
-
-# Robot stands on fully extended right leg starting from any height in 3 seconds
-hop_stand_time = 2
-LAR_THETA_GOAL = math.asin(HIP_TO_MID / LEG_TOTAL)
-def hop_stand(ref, phase_time):
-	#ref.ref[ha.LAR] = LAR_THETA_GOAL * (1 - math.cos((math.pi / 2) * phase_time))
-	
-	# Based on reset code
-	multiplier = 1
-	if (phase_time < 0.5): multiplier = 0.95
-	elif (phase_time < 1.0): multiplier = 0.9
-	elif (phase_time < 1.5): multiplier = 0.8
-	elif (phase_time < 1.9): multiplier = 0.5
-	else: multiplier = 0
-	
-	for joint in (ha.RHR, ha.LHR, ha.RHP, ha.LHP, ha.RKN, ha.LKN, ha.RAR, ha.LAR, ha.RAP, ha.LAP):
-		ref.ref[joint] *= multiplier
 	
