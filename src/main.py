@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python -u
 
 import hubo_ach as ha
 import ach
@@ -29,20 +29,22 @@ PHASE_LIST = [
 	(ph.hop            , ph.hop_time      , "hopping ..."),
 	(pl.leg_reset_right, pl.leg_reset_time, "standing ..."),
 	(pl.extend_left    , pl.leg_time      , "extending left leg ..."),
+	(pl.leg_reset_left , pl.leg_reset_time, "forcing both legs on ground ..."),
 	(ps.unlean_right   , ps.lean_time     , "centering ..."),
 	
 	#(ps.pause, 3, "stabilizing ..."),
 	
-	(ps.lean_left     , ps.lean_time    , "leaning left ..."),
-	(pl.lift_right    , pl.leg_time     , "lifting right leg ..."),
-	#(pb.plane         , pb.plane_time   , "leaning forward ..."),
-	(pl.extend_right  , pl.leg_time     , "extending right leg ..."),
-	#(pb.dance         , pb.dance_time    , "dancing ..."),
-	(pl.leg_reset_left, pl.leg_reset_time, "standing ..."),
-	(pl.lift_right    , pl.leg_time      , "retracting right leg ..."),
-	#(pb.unplane       , pb.unplane_time  , "straightening ..."),
-	(pl.extend_right  , pl.leg_time      , "extending right leg ..."),
-	(ps.unlean_right  , ps.lean_time     , "centering ..."),
+	(ps.lean_left      , ps.lean_time    , "leaning left ..."),
+	(pl.lift_right     , pl.leg_time     , "lifting right leg ..."),
+	#(pb.plane          , pb.plane_time   , "leaning forward ..."),
+	(pl.extend_right   , pl.leg_time     , "extending right leg ..."),
+	#(pb.dance          , pb.dance_time    , "dancing ..."),
+	(pl.leg_reset_left , pl.leg_reset_time, "standing ..."),
+	(pl.lift_right     , pl.leg_time      , "retracting right leg ..."),
+	#(pb.unplane        , pb.unplane_time  , "straightening ..."),
+	(pl.extend_right   , pl.leg_time      , "extending right leg ..."),
+	(pl.leg_reset_right, pl.leg_reset_time, "forcing both legs on ground ..."),
+	(ps.unlean_right   , ps.lean_time     , "centering ..."),
 	
 	(ps.arm_lower, ps.arm_lift_time, "lowering arms ...")
 ]
@@ -58,7 +60,7 @@ ref = ha.HUBO_REF()
 print "Python Code!"
 
 for (phase_func, phase_length, phase_text) in PHASE_LIST:
-	print phase_text
+	print phase_text,
 	
 	[status, framesize] = chan_state.get(state, wait=False, last=True)
 	time_init = state.time
@@ -68,7 +70,7 @@ for (phase_func, phase_length, phase_text) in PHASE_LIST:
 		[status, framesize] = chan_state.get(state, wait=False, last=True)
 		time_cur = state.time
 		# Debug
-		print "\rSim time ...",time_cur,
+		print "\r", phase_text, time_cur - time_init, "                              "
 		#debug_joint("RHP", ha.RHP, ref, state)
 		#debug_joint("RKP", ha.RKN, ref, state)
 		#debug_joint("RAP", ha.RAP, ref, state)
