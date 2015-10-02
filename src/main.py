@@ -35,7 +35,6 @@ PHASE_LIST = [
 	
 	#(ps.pause, 3, "stabilizing ..."),
 	
-	(ps.arm_raise      , ps.arm_lift_time , "raising arms ..."),
 	(ps.lean_left      , ps.lean_time     , "leaning left ..."),
 	(pl.lift_right     , pl.leg_time      , "lifting right leg ..."),
 	(pb.plane          , pb.plane_time    , "leaning forward ..."),
@@ -45,7 +44,6 @@ PHASE_LIST = [
 	(pl.extend_right   , pl.leg_time      , "extending right leg ..."),
 	(pl.leg_reset_right, pl.leg_reset_time, "forcing both legs on ground ..."),
 	(ps.unlean_right   , ps.lean_time     , "centering ..."),
-	(ps.arm_lower      , ps.arm_lift_time , "lowering arms ..."),
 	
 	(ps.arm_relax, ps.arm_lift_time, "relaxing arms ...")
 ]

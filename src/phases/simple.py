@@ -3,7 +3,7 @@ import math
 import hubo_ach as ha
 
 # Robot lifts its arms over 1 second
-arm_lift_time = 1
+arm_lift_time = 1.0
 def arm_lift(ref, phase_time):
 	# IK
 	theta = (math.pi / 6) * (1 - math.cos(math.pi * phase_time))
@@ -15,20 +15,8 @@ def arm_lift(ref, phase_time):
 def arm_relax(ref, phase_time):
 	arm_lift(ref, phase_time + arm_lift_time)
 
-# Robot raises its arms higher over 1 second
-def arm_raise(ref, phase_time):
-	# IK
-	theta = (math.pi / 6) * (1 - math.cos(math.pi * phase_time)) + math.pi / 3
-	# Ref output
-	ref.ref[ha.RSR] = -theta
-	ref.ref[ha.LSR] = theta
-
-# Robot lowers its arms to mid-point over 1 second
-def arm_lower(ref, phase_time):
-	arm_raise(ref, phase_time + arm_lift_time)
-
 # Robot eases into new support polygon over 2 seconds
-lean_time = 2
+lean_time = 2.0
 def lean(ref, phase_time, distance):
 	# IK
 	w = (distance/2) * (1 - math.cos((math.pi / 2) * phase_time))
