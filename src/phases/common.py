@@ -11,14 +11,13 @@ HIP_TO_MID = 88.43
 HIP_TO_GUT = 289.47
 WAIST_TO_GUT = 107.0
 HIP_TO_WAIST = HIP_TO_GUT - WAIST_TO_GUT
+COM_OFFSET = HIP_TO_WAIST / 2
 
 H_TOP = math.sqrt(LEG_TOTAL**2 - HIP_TO_MID**2)
 THETA_LEAN = math.asin(HIP_TO_MID / LEG_TOTAL)
 
 C_STAND = H_TOP # for different notation
 H_STAND = math.sqrt(C_STAND**2 - HIP_TO_WAIST**2)
-GAMMA_STAND = math.asin(HIP_TO_WAIST / C_STAND)
-
-#GAMMA_STAND = math.pi / 12 # stable standing LAP found empirically
-#X_STAND = C_TOP * math.sin(GAMMA_STAND) # COM offset found empirically
+GAMMA_STAND = math.asin(COM_OFFSET / C_STAND)
+RHO_STAND = math.acos(COM_OFFSET / C_STAND)
 

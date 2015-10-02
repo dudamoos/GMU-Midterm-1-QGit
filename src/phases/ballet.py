@@ -4,20 +4,20 @@ import hubo_ach as ha
 import legs
 
 PLANE_ANGLE = math.pi / 2
+#PLANE_ANGLE = 5 * math.pi / 12.0
 
 # Robot leans over 5 seconds, using its arms for balance
 plane_time = 4.0
 def do_plane(ref, phase_time):
 	# IK
 	theta = (PLANE_ANGLE / 2) * (1 - math.cos((math.pi / plane_time) * phase_time))
-	x = (HIP_TO_WAIST / 2) * (1 - math.cos((math.pi / plane_time) * phase_time))
+	x = (COM_OFFSET / 2) * (1 - math.cos((math.pi / plane_time) * phase_time))
 	gamma = math.asin(x / C_STAND)
 	o = (math.pi / 4) * (1 - math.cos((math.pi / plane_time) * phase_time))
-	#gamma = (GAMMA_STAND / 2) * (1 - math.cos((math.pi / plane_time) * phase_time))
 	# Ref output
 	ref.ref[ha.LHP] = -theta - gamma
 	ref.ref[ha.LAP] = gamma
-	ref.ref[ha.RSP] = ref.ref[ha.LSP] = o
+	ref.ref[ha.RSP] = ref.ref[ha.LSP] = -o
 
 # Robot leans forward parallel to ground over 5 seconds
 def plane(ref, phase_time):
@@ -38,7 +38,7 @@ def dance(ref, phase_time):
 	# IK - f/b
 	h = DANCE_AMP * math.cos((0.4 * math.pi) * phase_time) + DANCE_MID
 	c = math.sqrt(h**2 + HIP_TO_MID**2)
-	gamma = math.atan2(HIP_TO_MID, h)
+	gamma = math.atan2(COM_OFFSET, h)
 	# IK - l/r
 	l = math.sqrt(c**2 + HIP_TO_MID**2)
 	theta = math.atan2(HIP_TO_MID, c)
