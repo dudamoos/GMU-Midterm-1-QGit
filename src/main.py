@@ -12,8 +12,9 @@ import phases.hop as ph
 import phases.ballet as pb
 
 def debug_joint(name, index, ref, state):
-	if (abs(ref.ref[index] - state.joint[index].pos) > 0.15):
-		print "{0} is slipping! -> ref {1:3.4f}\tstate {2:3.4f}".format(name, ref.ref[index], state.joint[index].pos)
+	#if (abs(ref.ref[index] - state.joint[index].pos) > 0.15):
+	print "{0} -> ref {1:3.4f}\tstate {2:3.4f}".format(name, ref.ref[index], state.joint[index].pos)
+	
 
 def sim_time_sleep(target, state, chan_state):
 	while (state.time < target):
@@ -24,24 +25,21 @@ REF_INTERVAL = 0.05 # control loop runs at 20 Hz
 PHASE_LIST = [
 	(ps.arm_lift, ps.arm_lift_time, "lifting arms ..."),
 	
-	(ps.lean_right     , ps.lean_time,     "leaning right ..."),
-	(pl.lift_left      , pl.leg_time      , "lifting left leg ..."),
-	(ph.hop            , ph.hop_time      , "hopping ..."),
-	(pl.leg_reset_right, pl.leg_reset_time, "standing ..."),
-	(pl.extend_left    , pl.leg_time      , "extending left leg ..."),
-	(pl.leg_reset_left , pl.leg_reset_time, "forcing both legs on ground ..."),
-	(ps.unlean_right   , ps.lean_time     , "centering ..."),
+	#(ps.lean_right     , ps.lean_time,     "leaning right ..."),
+	#(pl.lift_left      , pl.leg_time      , "lifting left leg ..."),
+	#(ph.hop            , ph.hop_time      , "hopping ..."),
+	#(pl.leg_reset_right, pl.leg_reset_time, "standing ..."),
+	#(pl.extend_left    , pl.leg_time      , "extending left leg ..."),
+	#(pl.leg_reset_left , pl.leg_reset_time, "forcing both legs on ground ..."),
+	#(ps.unlean_right   , ps.lean_time     , "centering ..."),
 	
 	#(ps.pause, 3, "stabilizing ..."),
 	
 	(ps.lean_left      , ps.lean_time    , "leaning left ..."),
 	(pl.lift_right     , pl.leg_time     , "lifting right leg ..."),
-	#(pb.plane          , pb.plane_time   , "leaning forward ..."),
-	(pl.extend_right   , pl.leg_time     , "extending right leg ..."),
+	(pb.plane          , pb.plane_time   , "leaning forward ..."),
 	#(pb.dance          , pb.dance_time    , "dancing ..."),
-	(pl.leg_reset_left , pl.leg_reset_time, "standing ..."),
-	(pl.lift_right     , pl.leg_time      , "retracting right leg ..."),
-	#(pb.unplane        , pb.unplane_time  , "straightening ..."),
+	(pb.unplane        , pb.plane_time    , "straightening ..."),
 	(pl.extend_right   , pl.leg_time      , "extending right leg ..."),
 	(pl.leg_reset_right, pl.leg_reset_time, "forcing both legs on ground ..."),
 	(ps.unlean_right   , ps.lean_time     , "centering ..."),
@@ -70,10 +68,9 @@ for (phase_func, phase_length, phase_text) in PHASE_LIST:
 		[status, framesize] = chan_state.get(state, wait=False, last=True)
 		time_cur = state.time
 		# Debug
-		print "\r", phase_text, time_cur - time_init, "                              "
+		print "\r", phase_text, time_cur - time_init, "                              ",
+		#debug_joint("LHP", ha.LHP, ref, state)
 		#debug_joint("RHP", ha.RHP, ref, state)
-		#debug_joint("RKP", ha.RKN, ref, state)
-		#debug_joint("RAP", ha.RAP, ref, state)
 		# Phase time (emulate do-while)
 		if (time_cur >= time_last): break
 		# Step calculations

@@ -3,7 +3,7 @@ import math
 import hubo_ach as ha
 
 # Robot stands fully upright in 3 seconds
-leg_reset_time = 1
+leg_reset_time = 1.0
 def leg_reset(ref, phase_time, *args):
 	# Reset desired joints to zero
 	for joint in args: ref.ref[joint] = 0
@@ -18,7 +18,7 @@ def leg_reset_all(ref, phase_time):
 	leg_reset(ref, phase_time, ha.LHP, ha.LKN, ha.LAP, ha.RHP, ha.RKN, ha.RAP)
 
 # Robot cycles its leg with a period of 4 seconds per full cycle
-leg_time = 2 # time for half-cycle (single lift or extend)
+leg_time = 2.0 # time for half-cycle (single lift or extend)
 LEG_MID = H_TOP/2 + 50
 LEG_AMP = H_TOP/2 - 50
 def change_leg(ref, phase_time, hip, knee, ankle, ankle_roll_dir, ankle_roll):
