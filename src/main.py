@@ -42,8 +42,8 @@ PHASE_LIST = [
 	#(pb.dance          , pb.dance_time    , "dancing ..."),
 	(pb.unplane        , pb.plane_time    , "straightening ..."),
 	(pl.extend_right   , pl.leg_time      , "extending right leg ..."),
-	(pl.leg_reset_right, pl.leg_reset_time, "forcing both legs on ground ..."),
-	(ps.unlean_right   , ps.lean_time     , "centering ..."),
+	#(pl.leg_reset_right, pl.leg_reset_time, "forcing both legs on ground ..."),
+	(ps.unlean_left    , ps.lean_time     , "centering ..."),
 	
 	(ps.arm_relax, ps.arm_lift_time, "relaxing arms ...")
 ]
