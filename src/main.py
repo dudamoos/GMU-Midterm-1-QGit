@@ -1,4 +1,4 @@
-#!/usr/bin/python -u
+#!/usr/bin/python -u -O
 
 import hubo_ach as ha
 import ach
@@ -38,11 +38,10 @@ PHASE_LIST = [
 	(ps.lean_left      , ps.lean_time     , "leaning left ..."),
 	(pl.lift_right     , pl.leg_time      , "lifting right leg ..."),
 	(pb.plane          , pb.plane_time    , "leaning forward ..."),
-	(ps.pause, 5, "please inspect ..."),
-	#(pb.dance          , pb.dance_time    , "dancing ..."),
+	#(ps.pause, 5, "please inspect ..."),
+	(pb.dance          , pb.dance_time    , "dancing ..."),
 	(pb.unplane        , pb.plane_time    , "straightening ..."),
 	(pl.extend_right   , pl.leg_time      , "extending right leg ..."),
-	#(pl.leg_reset_right, pl.leg_reset_time, "forcing both legs on ground ..."),
 	(ps.unlean_left    , ps.lean_time     , "centering ..."),
 	
 	(ps.arm_relax, ps.arm_lift_time, "relaxing arms ...")
@@ -71,8 +70,14 @@ for (phase_func, phase_length, phase_text) in PHASE_LIST:
 		time_cur = state.time
 		# Debug
 		print "\r", phase_text, time_cur - time_init, "                              ",
-		#debug_joint("LHP", ha.LHP, ref, state)
-		#debug_joint("RHP", ha.RHP, ref, state)
+		if (phase_func == pb.dance):
+			print
+			debug_joint("LHP", ha.LHP, ref, state)
+			debug_joint("LHR", ha.LHR, ref, state)
+			debug_joint("LHY", ha.LHY, ref, state)
+			debug_joint("LKP", ha.LKN, ref, state)
+			debug_joint("LAP", ha.LAP, ref, state)
+			debug_joint("LAR", ha.LAR, ref, state)
 		# Phase time (emulate do-while)
 		if (time_cur >= time_last): break
 		# Step calculations
