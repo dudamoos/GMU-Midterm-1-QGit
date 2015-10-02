@@ -35,16 +35,19 @@ PHASE_LIST = [
 	
 	#(ps.pause, 3, "stabilizing ..."),
 	
-	(ps.lean_left      , ps.lean_time    , "leaning left ..."),
-	(pl.lift_right     , pl.leg_time     , "lifting right leg ..."),
-	(pb.plane          , pb.plane_time   , "leaning forward ..."),
+	(ps.arm_raise      , ps.arm_lift_time , "raising arms ..."),
+	(ps.lean_left      , ps.lean_time     , "leaning left ..."),
+	(pl.lift_right     , pl.leg_time      , "lifting right leg ..."),
+	(pb.plane          , pb.plane_time    , "leaning forward ..."),
+	(ps.pause, 5, "please inspect ..."),
 	#(pb.dance          , pb.dance_time    , "dancing ..."),
 	(pb.unplane        , pb.plane_time    , "straightening ..."),
 	(pl.extend_right   , pl.leg_time      , "extending right leg ..."),
 	(pl.leg_reset_right, pl.leg_reset_time, "forcing both legs on ground ..."),
 	(ps.unlean_right   , ps.lean_time     , "centering ..."),
+	(ps.arm_lower      , ps.arm_lift_time , "lowering arms ..."),
 	
-	(ps.arm_lower, ps.arm_lift_time, "lowering arms ...")
+	(ps.arm_relax, ps.arm_lift_time, "relaxing arms ...")
 ]
 
 # Open Hubo-Ach feed-forward and feed-back (reference and state) channels
@@ -58,6 +61,7 @@ ref = ha.HUBO_REF()
 print "Python Code!"
 
 for (phase_func, phase_length, phase_text) in PHASE_LIST:
+	if (phase_func == ps.pause): print '\a',
 	print phase_text,
 	
 	[status, framesize] = chan_state.get(state, wait=False, last=True)
