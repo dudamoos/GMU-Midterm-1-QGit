@@ -2,7 +2,7 @@
 
 import hubo_ach as ha
 import ach
-from time import sleep, time
+from time import sleep
 import math
 
 from phases.common import *
@@ -14,6 +14,11 @@ import phases.ballet as pb
 def debug_joint(name, index, ref, state):
 	#if (abs(ref.ref[index] - state.joint[index].pos) > 0.15):
 	print "{0} -> ref {1:3.4f}\tstate {2:3.4f}".format(name, ref.ref[index], state.joint[index].pos)
+	
+
+def sim_time_sleep(target, state, chan_state):
+	while (state.time < target):
+		[status, framesize] = chan_state.get(state, wait=False, last=True)
 
 REF_INTERVAL = 0.05 # control loop runs at 20 Hz
 
@@ -55,11 +60,13 @@ for (phase_func, phase_length, phase_text) in PHASE_LIST:
 	if (phase_func == ps.pause): print '\a',
 	print phase_text,
 	
-	time_init = time()
+	[status, framesize] = chan_state.get(state, wait=False, last=True)
+	time_init = state.time
 	time_last = time_init + phase_length
 	while True:
 		# Adaptive delay (timing)
-		time_cur = time()
+		[status, framesize] = chan_state.get(state, wait=False, last=True)
+		time_cur = state.time
 		# Debug
 		print "\r", phase_text, time_cur - time_init, "                              ",
 		#if (phase_func == pb.dance):
@@ -76,12 +83,13 @@ for (phase_func, phase_length, phase_text) in PHASE_LIST:
 		phase_func(ref, time_cur - time_init)
 		chan_ref.put(ref)
 		# Adaptive delay (sleep)
-		sleep(time_cur + REF_INTERVAL - time())
+		[status, framesize] = chan_state.get(state, wait=False, last=True)
+		sim_time_sleep(time_cur + REF_INTERVAL, state, chan_state)
 	# Ensure phase reaches its final point
 	phase_func(ref, phase_length)
 	chan_ref.put(ref)
 	
 	print
 	# arbitrary inter-phase delay
-	sleep(time_cur + 4*REF_INTERVAL - time())
+	sim_time_sleep(time_cur + 4*REF_INTERVAL, state, chan_state)
 
