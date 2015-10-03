@@ -3,6 +3,7 @@
 *.ko
 *.obj
 *.elf
+*.py[co]
 
 # Precompiled Headers
 *.gch
@@ -30,3 +31,8 @@
 
 # Debug files
 *.dSYM/
+
+# Text editor backups
+*~
+
+/main
