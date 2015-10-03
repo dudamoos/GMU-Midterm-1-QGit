@@ -1,4 +1,4 @@
-#!/usr/bin/python -u -O
+#!/usr/bin/python -u
 
 import hubo_ach as ha
 import ach
@@ -25,20 +25,19 @@ REF_INTERVAL = 0.05 # control loop runs at 20 Hz
 PHASE_LIST = [
 	(ps.arm_lift, ps.arm_lift_time, "lifting arms ..."),
 	
-	#(ps.lean_right     , ps.lean_time,     "leaning right ..."),
-	#(pl.lift_left      , pl.leg_time      , "lifting left leg ..."),
-	#(ph.hop            , ph.hop_time      , "hopping ..."),
-	#(pl.leg_reset_right, pl.leg_reset_time, "standing ..."),
-	#(pl.extend_left    , pl.leg_time      , "extending left leg ..."),
-	#(pl.leg_reset_left , pl.leg_reset_time, "forcing both legs on ground ..."),
-	#(ps.unlean_right   , ps.lean_time     , "centering ..."),
+	(ps.lean_right     , ps.lean_time,     "leaning right ..."),
+	(pl.lift_left      , pl.leg_time      , "lifting left leg ..."),
+	(ph.hop            , ph.hop_time      , "hopping ..."),
+	(pl.extend_left    , pl.leg_time      , "extending left leg ..."),
+	(pl.leg_reset_left , pl.leg_reset_time, "forcing both legs on ground ..."),
+	(ps.unlean_right   , ps.lean_time     , "centering ..."),
 	
 	#(ps.pause, 3, "stabilizing ..."),
 	
 	(ps.lean_left      , ps.lean_time     , "leaning left ..."),
 	(pl.lift_right     , pl.leg_time      , "lifting right leg ..."),
 	(pb.plane          , pb.plane_time    , "leaning forward ..."),
-	#(ps.pause, 5, "please inspect ..."),
+	#(ps.pause, 2, "please inspect ..."),
 	(pb.dance          , pb.dance_time    , "dancing ..."),
 	(pb.unplane        , pb.plane_time    , "straightening ..."),
 	(pl.extend_right   , pl.leg_time      , "extending right leg ..."),
@@ -70,14 +69,14 @@ for (phase_func, phase_length, phase_text) in PHASE_LIST:
 		time_cur = state.time
 		# Debug
 		print "\r", phase_text, time_cur - time_init, "                              ",
-		if (phase_func == pb.dance):
-			print
-			debug_joint("LHP", ha.LHP, ref, state)
-			debug_joint("LHR", ha.LHR, ref, state)
-			debug_joint("LHY", ha.LHY, ref, state)
-			debug_joint("LKP", ha.LKN, ref, state)
-			debug_joint("LAP", ha.LAP, ref, state)
-			debug_joint("LAR", ha.LAR, ref, state)
+		#if (phase_func == pb.dance):
+		#	print
+		#	debug_joint("LHP", ha.LHP, ref, state)
+		#	debug_joint("LHR", ha.LHR, ref, state)
+		#	debug_joint("LHY", ha.LHY, ref, state)
+		#	debug_joint("LKP", ha.LKN, ref, state)
+		#	debug_joint("LAP", ha.LAP, ref, state)
+		#	debug_joint("LAR", ha.LAR, ref, state)
 		# Phase time (emulate do-while)
 		if (time_cur >= time_last): break
 		# Step calculations
