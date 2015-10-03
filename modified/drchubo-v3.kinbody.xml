@@ -1156,7 +1156,7 @@
         <axis>0 0 1.0</axis>
         <limitsdeg>-90.0 136.8</limitsdeg>
         <maxvel>6.28318530718</maxvel>
-        <maxtorque>200</maxtorque> <!-- Left Hip yaw (was 25) -->
+        <maxtorque>1000</maxtorque> <!-- Left Hip yaw (was 25) -->
     </joint>
     <joint name="LHR" type="hinge">
         <body>Body_LHY</body>
@@ -1166,7 +1166,7 @@
         <axis>1.0 0 0</axis>
         <limitsdeg>-21.4 32.0</limitsdeg>
         <maxvel>6.28318530718</maxvel>
-        <maxtorque>200</maxtorque> <!-- Left Hip roll (was 25) -->
+        <maxtorque>1000</maxtorque> <!-- Left Hip roll (was 25) -->
     </joint>
     <joint name="LHP" type="hinge">
         <body>Body_LHR</body>
@@ -1176,7 +1176,7 @@
         <axis>0 1.0 0</axis>
         <limitsdeg>-106.3 91.7</limitsdeg>
         <maxvel>6.28318530718</maxvel>
-        <maxtorque>200</maxtorque> <!-- Left Hip pitch (was 25) -->
+        <maxtorque>1000</maxtorque> <!-- Left Hip pitch (was 25) -->
     </joint>
     <joint name="LKP" type="hinge">
         <body>Body_LHP</body>
@@ -1186,7 +1186,7 @@
         <axis>0 1.0 0</axis>
         <limitsdeg>-43.9 155.0</limitsdeg>
         <maxvel>6.28318530718</maxvel>
-        <maxtorque>200</maxtorque> <!-- Left Knee pitch (was 25) -->
+        <maxtorque>1000</maxtorque> <!-- Left Knee pitch (was 25) -->
     </joint>
     <joint name="LAP" type="hinge">
         <body>Body_LKP</body>
@@ -1196,7 +1196,7 @@
         <axis>0 1.0 0</axis>
         <limitsdeg>-94.2 129.0</limitsdeg>
         <maxvel>6.28318530718</maxvel>
-        <maxtorque>200</maxtorque> <!-- Left Ankle pitch (was 25) -->
+        <maxtorque>1000</maxtorque> <!-- Left Ankle pitch (was 25) -->
     </joint>
     <joint name="LAR" type="hinge">
         <body>Body_LAP</body>
@@ -1206,7 +1206,7 @@
         <axis>1.0 0 0</axis>
         <limitsdeg>-99.7 99.7</limitsdeg>
         <maxvel>6.28318530718</maxvel>
-        <maxtorque>200</maxtorque> <!-- Left Ankle roll (was 25) -->
+        <maxtorque>1000</maxtorque> <!-- Left Ankle roll (was 25) -->
     </joint>
     <joint enable="false" name="LAR_dummy" type="hinge">
         <limits>0 0</limits>
