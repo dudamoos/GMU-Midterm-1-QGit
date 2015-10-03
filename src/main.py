@@ -18,7 +18,7 @@ def debug_joint(name, index, ref, state):
 
 def sim_time_sleep(target, state, chan_state):
 	while (state.time < target):
-		[status, framesize] = chan_state.get(state, wait=False, last=True)
+		[status, framesize] = chan_state.get(state, wait=True, last=True)
 
 REF_INTERVAL = 0.05 # control loop runs at 20 Hz
 

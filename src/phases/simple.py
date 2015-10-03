@@ -19,7 +19,7 @@ def arm_relax(ref, phase_time):
 lean_time = 2.0
 def lean(ref, phase_time, distance):
 	# IK
-	w = (distance/2) * (1 - math.cos((math.pi / 2) * phase_time))
+	w = (distance/2) * (1 - math.cos((math.pi / lean_time) * phase_time))
 	theta = math.asin(w / LEG_TOTAL)
 	# Ref output
 	ref.ref[ha.RHR] = ref.ref[ha.LHR] = theta
