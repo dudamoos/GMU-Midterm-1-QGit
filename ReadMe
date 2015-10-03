@@ -1,0 +1,14 @@
+For this assignment, simulation-time was using instead of real-time because of
+problems controlling the simulation in real-time. Since the simulation was
+running at less than 15% of real-time speed, commanding the robot in real time
+made it do ridiculous things like leaping off the ground when moving up and
+down on one foot at the required rate. Additionally, as shown in the video,
+the robot could not realistically lean forward more than 45 degrees (pi/4
+radians). If it leaned forward any more (or went up/down any more) its leg
+would collide with its waist, causing many problems which would usually result
+in the robot toppling over.
+
+Video: https://www.youtube.com/watch?v=SMxctaIrm7w
+(look for the annotations)
+
+Video of real-time:
