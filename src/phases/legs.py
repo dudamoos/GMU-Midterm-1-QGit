@@ -19,11 +19,11 @@ def leg_reset_all(ref, phase_time):
 
 # Robot cycles its leg with a period of 4 seconds per full cycle
 leg_time = 2.0 # time for half-cycle (single lift or extend)
-def change_leg(ref, phase_time, hip, knee, ankle, ankle_roll_dir, ankle_roll, new_h):
-	leg_mid = (H_TOP + new_h) / 2
-	leg_amp = (H_TOP - new_h) / 2
+LEG_MID = H_TOP/2 + 50
+LEG_AMP = H_TOP/2 - 50
+def change_leg(ref, phase_time, hip, knee, ankle, ankle_roll_dir, ankle_roll):
 	# IK
-	l = leg_amp * math.cos((math.pi / leg_time) * phase_time) + leg_mid
+	l = LEG_AMP * math.cos((math.pi / leg_time) * phase_time) + LEG_MID
 	phi = math.acos(( LEG_UPPER**2 + LEG_LOWER**2 - l**2) / (2*LEG_UPPER*LEG_LOWER))
 	a   = math.acos(( LEG_UPPER**2 - LEG_LOWER**2 + l**2) / (2*LEG_UPPER*l))
 	b   = math.acos((-LEG_UPPER**2 + LEG_LOWER**2 + l**2) / (2*LEG_LOWER*l))
@@ -35,19 +35,19 @@ def change_leg(ref, phase_time, hip, knee, ankle, ankle_roll_dir, ankle_roll, ne
 	ref.ref[ankle] = -b
 	ref.ref[ankle_roll] = ankle_roll_dir * theta
 
-def lift_left(ref, phase_time, new_h = LEG_LIFTED_H):
+def lift_left(ref, phase_time):
 	# Lift left leg with left hip, knee, ankle joints
-	change_leg(ref, phase_time, ha.LHP, ha.LKN, ha.LAP, -1, ha.LAR, new_h)
+	change_leg(ref, phase_time, ha.LHP, ha.LKN, ha.LAP, -1, ha.LAR)
 
-def lift_right(ref, phase_time, new_h = LEG_LIFTED_H):
+def lift_right(ref, phase_time):
 	# Lift right leg with right hip, knee, ankle joints
-	change_leg(ref, phase_time, ha.RHP, ha.RKN, ha.RAP, 1, ha.RAR, new_h)
+	change_leg(ref, phase_time, ha.RHP, ha.RKN, ha.RAP, 1, ha.RAR)
 
-def extend_left(ref, phase_time, new_h = LEG_LIFTED_H):
+def extend_left(ref, phase_time):
 	# Extend left leg by phase shifting lift cycle by 2 seconds
-	change_leg(ref, phase_time + leg_time, ha.LHP, ha.LKN, ha.LAP, -1, ha.LAR, new_h)
+	change_leg(ref, phase_time + leg_time, ha.LHP, ha.LKN, ha.LAP, -1, ha.LAR)
 
-def extend_right(ref, phase_time, new_h = LEG_LIFTED_H):
+def extend_right(ref, phase_time):
 	# Extend right leg by phase shifting lift cycle by 2 seconds
-	change_leg(ref, phase_time + leg_time, ha.RHP, ha.RKN, ha.RAP, 1, ha.RAR, new_h)
+	change_leg(ref, phase_time + leg_time, ha.RHP, ha.RKN, ha.RAP, 1, ha.RAR)
 

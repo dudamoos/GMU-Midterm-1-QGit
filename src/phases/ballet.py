@@ -1,35 +1,54 @@
 from common import *
 import math
 import hubo_ach as ha
-import legs
 
 # Robot leans over 5 seconds, using its arms for balance
 plane_time = 4.0
+LEG_PLANED_H = 400
+LEG_AMP = LEG_PLANED_H/2 - 50
+LEG_MID = LEG_PLANED_H/2 + 50
 def do_plane(ref, phase_time):
-	# IK
+	# IK - lean forward/backward
 	theta = (PLANE_ANGLE / 2) * (1 - math.cos((math.pi / plane_time) * phase_time))
 	x = (COM_OFFSET / 2) * (1 - math.cos((math.pi / plane_time) * phase_time))
 	gamma = math.asin(x / C_STAND)
 	o = (PLANE_ANGLE / 2) * (1 - math.cos((math.pi / plane_time) * phase_time))
-	# Ref output
+	# Ref output - lean forward/backward
 	ref.ref[ha.LHP] = -theta - gamma
 	ref.ref[ha.LAP] = gamma
 	ref.ref[ha.RSP] = ref.ref[ha.LSP] = -o
+	
+	# IK - leg extend/lift
+	l = LEG_MID - LEG_AMP * math.cos((math.pi / plane_time) * phase_time)
+	phi = math.acos(( LEG_UPPER**2 + LEG_LOWER**2 - l**2) / (2*LEG_UPPER*LEG_LOWER))
+	a   = math.acos(( LEG_UPPER**2 - LEG_LOWER**2 + l**2) / (2*LEG_UPPER*l))
+	b   = math.acos((-LEG_UPPER**2 + LEG_LOWER**2 + l**2) / (2*LEG_LOWER*l))
+	psi = math.pi - phi
+	# Ref output - leg extend/lift
+	ref.ref[ha.RHP] = -a
+	ref.ref[ha.RKN] = psi
+	ref.ref[ha.RAP] = -b
+	
+	# IK - lean left/right - shift from hip roll to hip yaw
+	w1 = (HIP_TO_MID/2) * (1 + math.cos((math.pi / 2) * phase_time))
+	theta1 = math.asin(w1 / LEG_TOTAL)
+	w2 = (HIP_TO_MID/2) * (1 - math.cos((math.pi / 2) * phase_time))
+	theta2 = math.asin(w2 / LEG_TOTAL)
+	# Ref output - lean left/right
+	ref.ref[ha.RHR] = ref.ref[ha.LHR] = -theta1
+	ref.ref[ha.RHY] = ref.ref[ha.LHY] = -theta2
 
 # Robot leans forward parallel to ground over 5 seconds
-def plane(ref, phase_time):
-	do_plane(ref, phase_time)
-	legs.extend_right(ref, (legs.leg_time / plane_time) * phase_time, LEG_PLANED_H)
+def plane(ref, phase_time): do_plane(ref, phase_time)
 
 # Robot straightens so be perpendicular to ground over 5 seconds
-def unplane(ref, phase_time):
-	do_plane(ref, phase_time + plane_time)
-	legs.lift_right(ref, (legs.leg_time / plane_time) * phase_time, LEG_PLANED_H)
+def unplane(ref, phase_time): do_plane(ref, phase_time + plane_time)
 
 # Robot moves up and down with a period of 5 seconds
 dance_time = 10.0
-DANCE_MID = H_STAND - 100
-DANCE_AMP = 100
+#DANCE_AMP = 100
+DANCE_AMP = 50
+DANCE_MID = H_STAND - DANCE_AMP
 def dance(ref, phase_time):
 	#TODO
 	# IK - f/b
